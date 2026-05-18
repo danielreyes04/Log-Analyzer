@@ -87,16 +87,17 @@ def parse_log(path):
             pid = pid.group(1)
 
         dic_dataframe = {
-            'fecha y hora':fecha_hora,
-            'hostname':ip_des,
-            'tipo de mensaje':message_type,
+            'fecha_hora':fecha_hora,
+            'host':ip_des,
+            'tipo_mensaje':message_type,
             'usuario':user,
             'servicio': service,
-            'ip origen': ip_origin,
+            'ip_origen': ip_origin,
             'puerto': port,
             'PID': pid
         }
         list_dataframe.append(dic_dataframe)
 
     df = pd.DataFrame(list_dataframe)
+    df.reset_index()
     return df 
