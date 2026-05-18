@@ -2,8 +2,7 @@ import regex as re
 import pandas as pd
 
 # Leer archivo .log
-
-#path = "data/raw/auth.log" # ruta para pruebas
+#se puede refactorizar
 
 def parse_log(path):
     try:
@@ -55,13 +54,14 @@ def parse_log(path):
         #usuario
         if  re.search(r'ssh',line) :
             # ahi esta diceindo que busque por for (opcional el inavlid user ) una cadena + from
-            user = re.search(r'for\s+(?:invalid\s+user\s+)?(\w+)\s+from',line)
+            user = re.search(r'for\s+(?:invalid\s+user\s+)?(\w+)\s+from|Invalid\s+user\s+(\w+)\s+from',line)
+        
         else:
             #de momento funciona para cron pero habria que implemtar una funcionalidad en si para el
             user = re.search(r'user\s+(\w+)',line)
         
         if user:
-            user = user.group(1)
+            user = user.group(1) or user.group(2)
 
 
         #ip origen

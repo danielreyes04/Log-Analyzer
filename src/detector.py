@@ -58,8 +58,15 @@ def user_enumeration(df,umbral = 3):
     
     return df_enumeration   
             
-       
-    #print(list_user)
+#retorna un dataframe con las ip que tuvieron varios intentos y despues un Accept password
+def successful_intrusion(df, umbral = 5):
+    list_dataframe =[]
+    suspicious = brute_force(df)
+
+    #print(suspicious[suspicious['message_type']])
+    
+
+
 #print(brute_force(df))    
 print(user_enumeration(df))   
-#print(df.info())
+#print(successful_intrusion(df))
