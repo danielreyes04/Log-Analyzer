@@ -89,12 +89,12 @@ def parse_log(path):
         dic_dataframe = {
             'fecha_hora':fecha_hora,
             'host':ip_des,
-            'tipo_mensaje':message_type,
-            'usuario':user,
-            'servicio': service,
-            'ip_origen': ip_origin,
-            'puerto': port,
-            'PID': pid
+            'message_type':message_type,
+            'user':user,
+            'service': service,
+            'ip_origin': ip_origin,
+            'port': port,
+            'pid': pid
         }
         list_dataframe.append(dic_dataframe)
 
