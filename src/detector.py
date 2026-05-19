@@ -72,10 +72,16 @@ def successful_intrusion(df, umbral = 5):
     return successful_intrusion_dataframe
 
 def privilage_escalation(df):
-    pass    
+
+    privilage_escalation = df[df['service'] == 'usermod']
+    drop_columns = ['UID','GID','ip_origin','port']
+    privilage_escalation=privilage_escalation.drop(drop_columns,axis= 1)
+
+    return privilage_escalation
+   
     
 
-#print(df[df['service'] == 'sshd'])
+#print(df[df['service'] == 'usermod'])
 #print(brute_force(df))
 #print(user_enumeration(df))   
-print(successful_intrusion(df))
+print(privilage_escalation(df))
