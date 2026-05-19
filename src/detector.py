@@ -14,7 +14,7 @@ def brute_force(df, umbral = 5):
     fails = df[(df['message_type'] == 'Failed password')|(df['message_type'] ==  'Failed password for invalid user')]
     #con el groupby contamos los intentos fallidos por ip
     counts = fails.groupby('ip_origin')['message_type'].count()
-
+    
     # Acedemos con el for al contenido de ese groupby
     for ip, value in counts.items():
         # se crea esa tupla para almacenar por iteracion la pareja [ip, value] para hacerle un append a ip_suspicious 
@@ -55,18 +55,25 @@ def user_enumeration(df,umbral = 3):
 
     #Crear un dataset con concatenandolos
     df_enumeration = pd.concat(list_dataframe)
-    
+
     return df_enumeration   
             
-#retorna un dataframe con las ip que tuvieron varios intentos y despues un Accept password
+#retorna un dataframe con las ip que tuvieron varios intentos de login fallidos y despues un Accept password
 def successful_intrusion(df, umbral = 5):
-    list_dataframe =[]
+    #llamamos la funcio brute_force
     suspicious = brute_force(df)
+    #la filtramos por intentos fallidos y exitosos
+    list_message = suspicious[(suspicious['message_type'] == 'Failed password') | ( suspicious['message_type'] =='Failed password for invalid user')|(suspicious['message_type'] =='Accepted password')]
+    # groupby para filtrar esos diferentes intentos por ip
+    groupby_ip = list_message.groupby('ip_origin')['message_type'].value_counts().unstack(fill_value=0) # unstack convierte en un dataframe el groupby
+    #se filtra el dataframe por >= al umbral y que tenga un login exitoso
+    successful_intrusion_dataframe = groupby_ip[((groupby_ip['Failed password for invalid user'] + groupby_ip['Failed password']) >= umbral)&(groupby_ip['Accepted password']>=1)]
 
-    #print(suspicious[suspicious['message_type']])
+    return successful_intrusion_dataframe
+     
     
 
 
 #print(brute_force(df))    
-print(user_enumeration(df))   
-#print(successful_intrusion(df))
+#print(user_enumeration(df))   
+print(successful_intrusion(df))
