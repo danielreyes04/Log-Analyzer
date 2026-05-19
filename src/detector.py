@@ -31,7 +31,7 @@ def brute_force(df, umbral = 5):
         list_dataframe.append(suspicious)
 
     df_suspicious = pd.concat(list_dataframe) # concatenan los df por diferentes ip 
-    #print(df_suspicious)
+    
     return df_suspicious
     
 def user_enumeration(df,umbral = 3):
@@ -70,10 +70,12 @@ def successful_intrusion(df, umbral = 5):
     successful_intrusion_dataframe = groupby_ip[((groupby_ip['Failed password for invalid user'] + groupby_ip['Failed password']) >= umbral)&(groupby_ip['Accepted password']>=1)]
 
     return successful_intrusion_dataframe
-     
+
+def privilage_escalation(df):
+    pass    
     
 
-
-#print(brute_force(df))    
+#print(df[df['service'] == 'sshd'])
+#print(brute_force(df))
 #print(user_enumeration(df))   
 print(successful_intrusion(df))

@@ -29,6 +29,9 @@ def parse_log(path):
         port = None
         service = None
         pid = None
+        uid = None
+        gid = None
+        group_name = None
 
         #busca esa expresion regular  indicada por cada renglon
         
@@ -45,38 +48,62 @@ def parse_log(path):
             ip_des = ip_des.group(1) 
 
 
-        #Tipo de mensaje
-        message_type = re.search(r'(Accepted password|Failed password for invalid user|Failed password|Connection closed|Received disconnect|Disconnected from user|session opened|session closed|Disconnected|Invalid user)', line) 
-        if message_type:
-            message_type = message_type.group(1)
 
+        # ssh
+        if  re.search(r'\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\s+sshd\[\d+\]',line) :
 
-        #usuario
-        if  re.search(r'ssh',line) :
+            #usuario 
             # ahi esta diceindo que busque por for (opcional el inavlid user ) una cadena + from
-            user = re.search(r'for\s+(?:invalid\s+user\s+)?(\w+)\s+from|Invalid\s+user\s+(\w+)\s+from',line)
-        
-        else:
-            #de momento funciona para cron pero habria que implemtar una funcionalidad en si para el
-            user = re.search(r'user\s+(\w+)',line)
+            user = re.search(r'for\s+(?:invalid\s+user\s+)?(\w+)\s+from|Invalid\s+user\s+(\w+)\s+from|user\s+(\w+)',line)
+
+            ip_origin = re.search(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})',line)
+            if ip_origin:
+                ip_origin = ip_origin.group(1)
+            
+            #Tipo de mensaje
+            message_type = re.search(r'(Accepted password|Failed password for invalid user|Failed password|Invalid user| Disconnected from authenticating user|Received disconnect|PAM 1 more authentication failure)', line) 
+            if message_type:
+                message_type = message_type.group(1)
+            #Puerto
+            port = re.search(r'port\s+(\d+)',line) # con ( ) seleccionamos lo que queremos traer
+            if port: # quitamos que se extraiga el objeto
+                port = port.group(1) #  de esta forma quitamos los [] del puerto
+            
+        #cron 
+        elif re.search(r'\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\s+CRON',line):
+            user = re.search(r'for user (\w+)',line)     
+
+            message_type = re.search(r'\s+(\w+\s+\w+)\s+for', line) 
+            message_type = message_type.group(1)
+        #useradd
+        elif re.search(r'\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\s+useradd',line):
+            #user
+            user = re.search(r'user:\s+name=(\w+),',line) 
+            #message_type
+            message_type = re.search(r':\s+(\w+\s+\w+):', line) 
+            message_type = message_type.group(1)
+            #uid
+            uid = re.search(r'UID=(\d+)',line)
+            uid=uid.group(1)
+            #gid
+            gid = re.search(r'GID=(\d+)',line)
+            gid=gid.group(1)
+
+        elif re.search(r'\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\s+usermod',line):
+            user = re.search(r"add\s+'(\w+)'",line)
+            message_type =re.search(r'to\s+(\w+\s*\w*)',line) 
+            message_type= message_type.group(1)
+            group_name = re.search(r"group\s+'(\w+)'",line)
+            group_name = group_name.group(1)
+
         
         if user:
-            user = user.group(1) or user.group(2)
+            user = user.group(1) or user.group(2) or user.group(3) 
 
 
-        #ip origen
-        ip_origin = re.search(r'(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})',line)
-        if ip_origin:
-            ip_origin = ip_origin.group(1)
-        
-
-        #Puerto
-        port = re.search(r'port\s+(\d+)',line) # con ( ) seleccionamos lo que queremos traer
-        if port: # quitamos que se extraiga el objeto
-            port = port.group(1) #  de esta forma quitamos los [] del puerto
         
         #Servicio
-        service = re.search(r'(sshd|sudo|CRON)',line)
+        service = re.search(r'(sshd|sudo|CRON|useradd|usermod)',line)
         if service:
             service = service.group(1)
 
@@ -87,14 +114,17 @@ def parse_log(path):
             pid = pid.group(1)
 
         dic_dataframe = {
+            'service': service,
             'fecha_hora':fecha_hora,
             'host':ip_des,
             'message_type':message_type,
             'user':user,
-            'service': service,
+            'UID':uid,
+            'GID':gid,
             'ip_origin': ip_origin,
             'port': port,
-            'pid': pid
+            'pid': pid,
+            'group_name':group_name
         }
         list_dataframe.append(dic_dataframe)
 
