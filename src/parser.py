@@ -32,6 +32,7 @@ def parse_log(path):
         uid = None
         gid = None
         group_name = None
+        command = None
 
         #busca esa expresion regular  indicada por cada renglon
         
@@ -88,15 +89,23 @@ def parse_log(path):
             #gid
             gid = re.search(r'GID=(\d+)',line)
             gid=gid.group(1)
-
+        #usermod
         elif re.search(r'\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\s+usermod',line):
             user = re.search(r"add\s+'(\w+)'",line)
             message_type =re.search(r'to\s+(\w+\s*\w*)',line) 
             message_type= message_type.group(1)
             group_name = re.search(r"group\s+'(\w+)'",line)
             group_name = group_name.group(1)
+        #sudo
+        elif re.search(r'\d{1,3}-\d{1,3}-\d{1,3}-\d{1,3}\s+sudo',line):
+            user = re.search(r'sudo:\s+(\w+)\s+:|by\s+(\w+)\(',line)
+            command = re.search(r'COMMAND=/usr/bin/(.+)',line)
+            if command:
+                command = command.group(1)
+            message_type = re.search(r'session opened for user root|session closed for user root',line)
+            if message_type:
+                message_type= message_type.group(0)
 
-        
         if user:
             user = user.group(1) or user.group(2) or user.group(3) 
 
@@ -124,7 +133,8 @@ def parse_log(path):
             'ip_origin': ip_origin,
             'port': port,
             'pid': pid,
-            'group_name':group_name
+            'group_name':group_name,
+            'command':command
         }
         list_dataframe.append(dic_dataframe)
 
