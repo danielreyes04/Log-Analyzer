@@ -10,7 +10,7 @@ def parse_log(path):
             data = f.read() #leer el contenido del archivo
     except FileNotFoundError:
         print("File not found.") # en caso de que no lo encuentre
-
+        return pd.DataFrame()
 
     list_dataframe = []
 

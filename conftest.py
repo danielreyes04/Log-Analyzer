@@ -1,0 +1,1 @@
+# para que el pytest entienda la raiz del proyecto para las rutas

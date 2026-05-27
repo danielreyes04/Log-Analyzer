@@ -1,8 +1,6 @@
 from parser import parse_log
 import pandas as pd
 
-path = "data/raw/auth.log"
-df = parse_log(path)
 
 # funcion para detectar posibles ataques de fuerza bruta
 def brute_force(df, umbral = 5):
@@ -71,14 +69,14 @@ def successful_intrusion(df, umbral = 5):
 
     return successful_intrusion_dataframe
 
+# retorna un dataframe con esa ip que pudo escalar privilegios en el sistema y que ejecuto
 def privilage_escalation(df):
-
+    # filtra el data set original por los comandos usermod(administra los permisos de un usuario ) y sudo (permisoso root)
     privilage_escalation = df[(df['service'] == 'usermod')|(df['service'] == 'sudo')]
+    
+    # dopea las columnas que nos nos brindan informacion util para el analisis 
     drop_columns = ['UID','GID','ip_origin','port']
     privilage_escalation=privilage_escalation.drop(drop_columns,axis= 1)
 
     return privilage_escalation
    
-    
-
-print(privilage_escalation(df))
