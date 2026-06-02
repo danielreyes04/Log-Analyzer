@@ -1,6 +1,5 @@
-from parser import parse_log
+from src.parser import parse_log
 import pandas as pd
-
 
 # funcion para detectar posibles ataques de fuerza bruta
 def brute_force(df, umbral = 5):
@@ -74,9 +73,8 @@ def privilage_escalation(df):
     # filtra el data set original por los comandos usermod(administra los permisos de un usuario ) y sudo (permisoso root)
     privilage_escalation = df[(df['service'] == 'usermod')|(df['service'] == 'sudo')]
     
-    # dopea las columnas que nos nos brindan informacion util para el analisis 
+    # dropea las columnas que no nos brindan informacion util para el analisis 
     drop_columns = ['UID','GID','ip_origin','port']
     privilage_escalation=privilage_escalation.drop(drop_columns,axis= 1)
 
     return privilage_escalation
-   
