@@ -26,6 +26,10 @@ def brute_force(df, umbral = 5):
     for tuple in ip_suspicious:
         suspicious = df[df['ip_origin'] == tuple[0]] # 0 porque ahi esta la ip
         list_dataframe.append(suspicious)
+    
+    # para retornar un df vacio si no hay ataque
+    if not list_dataframe:
+        return pd.DataFrame()
 
     df_suspicious = pd.concat(list_dataframe) # concatenan los df por diferentes ip 
     

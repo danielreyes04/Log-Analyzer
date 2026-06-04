@@ -13,4 +13,3 @@ df_successful_intrusion = successful_intrusion(df)
 df_privilage_escalation = privilage_escalation(df)
 
 print(alert_brute_force(df_brute_force))
-print(df['fecha_hora'])
