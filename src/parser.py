@@ -139,5 +139,7 @@ def parse_log(path):
         list_dataframe.append(dic_dataframe)
 
     df = pd.DataFrame(list_dataframe)
+    # por defecto pandas agrega el año 1900 si no hay año
+    df['fecha_hora'] = pd.to_datetime(df['fecha_hora'], format='%b %d %H:%M:%S') # Se agrego para que el formado de la fehca y hora sea en datatime
     df.reset_index()
     return df 
