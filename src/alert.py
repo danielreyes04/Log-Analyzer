@@ -30,8 +30,18 @@ def alert_brute_force(df):
     
     
 def alert_user_enumeration(df):
+    df_ip_user = df.groupby('ip_origin')['user'].unique() # se agrupa por ip y se obtiene los usuarios unicos por cada ip
+    if df_ip_user.empty:
+        console.print('No se detecto ataque de enumeracion de usuarios')
+    else:
+        console.print("[bold red]ALERTA[/bold red]")
+        console.print('Se ha detectado un posible ataque de [bold red]enumeracion de usuarios[/bold red]')
+        for ip, user in df_ip_user.items():
+            users = ''
+            users += ', '.join(user)  # para imprimir los usuarios separados por coma
+            console.print(f'La ip {ip} ha intentado acceder con los siguientes usuarios: {users}')
+
     
-    pass
 def alert_successful_intrusion(df):
     
     pass
