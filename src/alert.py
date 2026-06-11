@@ -43,8 +43,17 @@ def alert_user_enumeration(df):
 
     
 def alert_successful_intrusion(df):
-    
-    pass
+    if df.empty:
+        console.print('No se detecto ataque de intrusion exitosa')
+    else:
+        console.print("[bold red]ALERTA[/bold red]")
+        console.print('Se ha detectado un posible ataque de [bold red]intrusion exitosa[/bold red]')
+        for index,intrusion in df.iterrows():
+            console.print(index+1) # para imprimir el numero de alerta
+            #imprime la ip del dataframe con su numero de intentos fallidos por contrasña, usuario y al final el exitoso
+            console.print(f'La ip {intrusion["ip_origin"]} ha tenido acceso exitoso')
+            console.print(f'Con los siguientes intentos con usuario incorrecto y contraseña incorrecta: {intrusion["Failed password for invalid user"]}, contraseña incorrecta con {intrusion["Failed password"]} intentos y finalmente tuvo {intrusion["Accepted password"]} contraseñas correctas')
+
 def privilage_escalation(df):
     
     pass

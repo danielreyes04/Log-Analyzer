@@ -66,7 +66,8 @@ def successful_intrusion(df, umbral = 5):
     #la filtramos por intentos fallidos y exitosos
     list_message = suspicious[(suspicious['message_type'] == 'Failed password') | ( suspicious['message_type'] =='Failed password for invalid user')|(suspicious['message_type'] =='Accepted password')]
     # groupby para filtrar esos diferentes intentos por ip
-    groupby_ip = list_message.groupby('ip_origin')['message_type'].value_counts().unstack(fill_value=0) # unstack convierte en un dataframe el groupby
+    # el reset_index es para que el indice vuelva a ser numerico y no la ip
+    groupby_ip = list_message.groupby('ip_origin')['message_type'].value_counts().unstack(fill_value=0).reset_index() # unstack convierte en un dataframe el groupby
     #se filtra el dataframe por >= al umbral y que tenga un login exitoso
     successful_intrusion_dataframe = groupby_ip[((groupby_ip['Failed password for invalid user'] + groupby_ip['Failed password']) >= umbral)&(groupby_ip['Accepted password']>=1)]
 
