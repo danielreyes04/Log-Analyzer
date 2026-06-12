@@ -40,7 +40,6 @@ def alert_user_enumeration(df):
             users = ''
             users += ', '.join(user)  # para imprimir los usuarios separados por coma
             console.print(f'La ip {ip} ha intentado acceder con los siguientes usuarios: {users}')
-
     
 def alert_successful_intrusion(df):
     if df.empty:
