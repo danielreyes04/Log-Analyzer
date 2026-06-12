@@ -12,4 +12,4 @@ df_user_enumeration = user_enumeration(df)
 df_successful_intrusion = successful_intrusion(df)
 df_privilage_escalation = privilage_escalation(df)
 
-print(alert_successful_intrusion(df_successful_intrusion))
+print(alert_privilage_escalation(df_privilage_escalation))

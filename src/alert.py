@@ -54,6 +54,18 @@ def alert_successful_intrusion(df):
             console.print(f'La ip {intrusion["ip_origin"]} ha tenido acceso exitoso')
             console.print(f'Con los siguientes intentos con usuario incorrecto y contraseña incorrecta: {intrusion["Failed password for invalid user"]}, contraseña incorrecta con {intrusion["Failed password"]} intentos y finalmente tuvo {intrusion["Accepted password"]} contraseñas correctas')
 
-def privilage_escalation(df):
-    
-    pass
+def alert_privilage_escalation(df):
+    df_user = df.groupby('user')
+    console.print("[bold red]ALERTA[/bold red]")
+    console.print('Se ha detectado un posible ataque de [bold red]escala de privilegios[/bold red]')
+    for user, group in df_user:
+        services = group['service'].unique()
+        group_name = group['group_name'].dropna().unique()
+        command = group['command'].dropna().unique()
+        message_type = group['message_type'].dropna().unique()
+
+        console.print(f'El usuario {user} ha escalado privilegios en el sistema')
+        console.print(f'Ha utilizado los siguientes servicios: {", ".join(services)}')
+        console.print(f'Ha pertenecido a los siguientes grupos: {", ".join(group_name)}')
+        console.print(f'Ha ejecutado los siguientes comandos: {", ".join(command)}')
+        console.print(f'Los mensajes asociados a esta actividad son: {", ".join(message_type)}')
