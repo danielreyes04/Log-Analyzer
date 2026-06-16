@@ -19,7 +19,7 @@ def alert_brute_force(df):
             ip_print = ip
             gruop = gruop[(gruop['message_type'] == 'Failed password for invalid user')|(gruop['message_type'] == 'Failed password')]
             attempts = gruop.shape
-            date = gruop['fecha_hora'].max() - gruop['fecha_hora'].min()
+            date = gruop['date'].max() - gruop['date'].min()
             # formato para sacar hora,minuto y segundo de date
             total_seconds = date.seconds
             horas = total_seconds // 3600

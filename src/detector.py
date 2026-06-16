@@ -1,4 +1,3 @@
-from src.parser import parse_log
 import pandas as pd
 
 # funcion para detectar posibles ataques de fuerza bruta

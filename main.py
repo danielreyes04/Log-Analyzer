@@ -1,6 +1,7 @@
 from src.alert import *
 from src.detector import *
 from src.parser import parse_log
+from src.visualizer import *
 import click
 
 
@@ -8,7 +9,6 @@ import click
 @click.option('--log', default='data/raw/auth.log', help='Ruta del archivo de log') # se agreaga una opcion
 def main (log):
     df = parse_log(log)
-
     df_brute_force = brute_force(df)
     df_user_enumeration = user_enumeration(df)
     df_successful_intrusion = successful_intrusion(df)
@@ -18,6 +18,8 @@ def main (log):
     alert_user_enumeration(df_user_enumeration)
     alert_privilage_escalation(df_privilage_escalation)
     alert_successful_intrusion(df_successful_intrusion)
+    plot_all(df)
+    
 
 
 if __name__ == '__main__':

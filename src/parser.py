@@ -124,7 +124,7 @@ def parse_log(path):
 
         dic_dataframe = {
             'service': service,
-            'fecha_hora':fecha_hora,
+            'date':fecha_hora,
             'host':ip_des,
             'message_type':message_type,
             'user':user,
@@ -140,6 +140,6 @@ def parse_log(path):
 
     df = pd.DataFrame(list_dataframe)
     # por defecto pandas agrega el año 1900 si no hay año
-    df['fecha_hora'] = pd.to_datetime(df['fecha_hora'], format='%b %d %H:%M:%S') # Se agrego para que el formado de la fehca y hora sea en datatime
+    df['date'] = pd.to_datetime(df['date'], format='%b %d %H:%M:%S') # Se agrego para que el formado de la fehca y hora sea en datatime
     df.reset_index()
     return df 
