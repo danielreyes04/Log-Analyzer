@@ -8,7 +8,7 @@ Este proyecto fue construido como caso de estudio práctico sobre el **Sherlock 
 
 ##  Vista previa
 
-| Timeline del ataque | Top IPs atacantes |
+| Timeline del ataque | Top IPs |
 |---|---|
 | ![Timeline](reports/figures/Failed%20password.png) | ![Top IPs](reports/figures/top_ip.png) |
 
