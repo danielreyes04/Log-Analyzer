@@ -1,4 +1,4 @@
-# 🛡️ Security Log Analyzer
+#  Security Log Analyzer
 
 Un analizador de logs de autenticación de Linux (`auth.log`) construido en Python para detectar patrones de ataque — fuerza bruta, enumeración de usuarios, intrusiones exitosas y escalada de privilegios — y generar alertas legibles en consola junto con visualizaciones del incidente.
 
@@ -6,7 +6,7 @@ Este proyecto fue construido como caso de estudio práctico sobre el **Sherlock 
 
 ---
 
-## 📊 Vista previa
+##  Vista previa
 
 | Timeline del ataque | Top IPs atacantes |
 |---|---|
@@ -18,7 +18,7 @@ Este proyecto fue construido como caso de estudio práctico sobre el **Sherlock 
 
 ---
 
-## ⚙️ Características
+##  Características
 
 El motor de detección identifica cuatro patrones de ataque sobre el log parseado:
 
@@ -33,7 +33,7 @@ Cada detección genera:
 
 ---
 
-## 🧰 Stack tecnológico
+##  Stack tecnológico
 
 | Herramienta | Uso |
 |---|---|
@@ -48,7 +48,7 @@ Cada detección genera:
 
 ---
 
-## 📁 Estructura del proyecto
+##  Estructura del proyecto
 
 ```
 security-log-analyzer/
@@ -86,7 +86,7 @@ security-log-analyzer/
 
 ---
 
-## 🚀 Instalación
+##  Instalación
 
 ```bash
 # Clonar el repositorio
@@ -104,7 +104,7 @@ pip install -r requirements-dev.txt
 
 ---
 
-## ▶️ Uso
+##  Uso
 
 Corre el análisis completo sobre un archivo `auth.log`:
 
@@ -144,7 +144,7 @@ Las gráficas generadas quedan guardadas en `reports/figures/`.
 
 ---
 
-## 🔍 Caso de estudio: Sherlock Brutus (HTB)
+##  Caso de estudio: Sherlock Brutus (HTB)
 
 El dataset usado para validar este proyecto es real y documenta un ataque completo:
 
@@ -159,7 +159,7 @@ El análisis forense completo, con línea de tiempo, evidencia visual y recomend
 
 ---
 
-## ✅ Tests
+##  Tests
 
 El proyecto cuenta con tests unitarios para el parser y el motor de detección:
 
@@ -171,7 +171,7 @@ Los tests usan fixtures con líneas de log controladas (`tests/fixtures/`) en lu
 
 ---
 
-## 📚 Lo aprendido
+## 📚Lo aprendido
 
 Este proyecto fue una forma práctica de combinar dos áreas de interés — ciberseguridad y data science — y de aplicar:
 
@@ -189,6 +189,6 @@ Este proyecto fue una forma práctica de combinar dos áreas de interés — cib
 
 ---
 
-## 📄 Licencia
+##  Licencia
 
 Proyecto personal con fines educativos y de portafolio.
